@@ -1,0 +1,574 @@
+<!-- PASTE THIS WHOLE BLOCK INTO WP CUSTOM HTML -->
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Mitr:wght@400;500;600&display=swap');
+
+:root{
+  --bg: #FFE5F1;
+  --card: #ffffff;
+  --accent: #E85D9A;
+  --text: #2D2D2D;
+  --muted: #7A7A7A;
+  --btn-bg: #FFB3D9;
+  --btn-text: #2D2D2D;
+}
+
+.season-spring { --bg:#FFE1ED; --accent:#E85D9A; --btn-bg:#FFB3D9; }
+.season-summer { --bg:#FFE8D1; --accent:#E8854D; --btn-bg:#FFD4AD; }
+.season-autumn { --bg:#FFDDD1; --accent:#E8754D; --btn-bg:#FFC4AD; }
+.season-winter { --bg:#D9EDFF; --accent:#5DA8E8; --btn-bg:#B3D9FF; }
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-8px); }
+}
+
+@keyframes glow {
+  0%, 100% { box-shadow: 0 6px 20px rgba(0,0,0,0.1), 0 0 20px var(--accent); }
+  50% { box-shadow: 0 6px 20px rgba(0,0,0,0.1), 0 0 30px var(--accent); }
+}
+
+@keyframes slideIn {
+  from { transform: translateY(-20px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+.calendar-wrap{ 
+  display:flex; 
+  justify-content:center; 
+  padding:20px; 
+  font-family:'Mitr', 'Fredoka', sans-serif;
+}
+
+.calendar{
+  width: 420px;
+  max-width: 95%;
+  background: var(--bg);
+  border-radius: 24px;
+  padding: 28px;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+  box-sizing: border-box;
+  animation: slideIn 0.6s ease-out;
+  position: relative;
+}
+
+/* header */
+.controls{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  margin-bottom: 20px;
+  gap: 15px;
+}
+
+.ctrl-btn{
+  border: none;
+  background: var(--btn-bg);
+  padding: 12px 20px;
+  border-radius: 20px;
+  cursor:pointer;
+  font-weight:600;
+  color:var(--btn-text);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  font-size: 15px;
+  font-family:'Mitr', sans-serif;
+}
+
+.ctrl-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 20px rgba(0,0,0,0.18);
+}
+
+.ctrl-btn:active {
+  transform: translateY(0);
+}
+
+/* month-year */
+.month-year{
+  font-size: 22px;
+  font-weight: 600;
+  color: var(--text);
+  font-family:'Mitr', sans-serif;
+  flex: 1;
+  text-align: center;
+}
+
+/* title */
+.calendar-title {
+  text-align:center;
+  color:var(--accent);
+  margin: 0 0 20px 0;
+  font-size: 28px;
+  font-weight: 600;
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.08);
+  font-family:'Mitr', sans-serif;
+}
+
+/* weekdays */
+.calendar-grid{
+  display: grid;
+  grid-template-columns: repeat(7,1fr);
+  gap: 10px;
+  margin-top:15px;
+}
+
+.weekday{
+  text-align:center;
+  font-size:13px;
+  color:var(--muted);
+  font-weight:600;
+  padding: 8px 0;
+  font-family:'Mitr', sans-serif;
+}
+
+/* date cell */
+.cell{
+  background: var(--card);
+  border-radius: 16px;
+  text-align:center;
+  padding: 8px 4px;
+  min-height: 60px;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items: center;
+  position: relative;
+  cursor:pointer;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  font-weight: 600;
+  color: var(--text);
+  font-family:'Fredoka', sans-serif;
+}
+
+.cell:hover {
+  transform: translateY(-5px) scale(1.05);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+}
+
+.cell.faded{ 
+  opacity:0.3;
+  pointer-events: none;
+}
+
+/* mood image - แทนที่อีโมจิ */
+.mood-image{
+  margin-top:6px;
+  width: 28px;
+  height: 28px;
+  object-fit: contain;
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
+  transition: transform 0.3s ease;
+}
+
+.cell:hover .mood-image {
+  transform: scale(1.2) rotate(5deg);
+}
+
+/* today highlight */
+.cell.today{
+  border: 3px solid var(--accent);
+  box-shadow: 0 6px 18px rgba(0,0,0,0.15), 0 0 25px var(--accent);
+  animation: glow 2s ease-in-out infinite;
+  font-weight: 700;
+}
+
+/* modal */
+.mood-modal{
+  position:fixed;
+  inset:0;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  background:rgba(0,0,0,0.5);
+  z-index:99999;
+  backdrop-filter: blur(8px);
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.mood-modal.active{ display:flex; }
+
+.modal-card{
+  width:92%;
+  max-width:450px;
+  background:white;
+  padding:28px;
+  border-radius:24px;
+  box-shadow:0 20px 60px rgba(0,0,0,0.25);
+  animation: modalSlide 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes modalSlide {
+  from { transform: translateY(-50px) scale(0.9); opacity: 0; }
+  to { transform: translateY(0) scale(1); opacity: 1; }
+}
+
+.modal-card h3 {
+  text-align:center;
+  margin-top:0;
+  font-size: 24px;
+  font-weight: 600;
+  color: var(--text);
+  font-family:'Mitr', sans-serif;
+}
+
+.modal-row{
+  display:flex; 
+  gap:12px; 
+  flex-wrap:wrap; 
+  justify-content:center;
+  margin: 20px 0;
+}
+
+.mood-btn{
+  border:none;
+  background:#F5F5F5;
+  padding:16px 18px;
+  border-radius:20px;
+  cursor:pointer;
+  box-shadow:0 4px 12px rgba(0,0,0,0.1);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  width: 70px;
+  height: 70px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.mood-btn img {
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+}
+
+.mood-btn:hover {
+  transform: translateY(-4px) scale(1.1);
+  box-shadow:0 8px 20px rgba(0,0,0,0.15);
+}
+
+.mood-btn.selected{
+  background: var(--btn-bg);
+  transform: translateY(-6px) scale(1.15);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+}
+
+.mood-btn.selected::after {
+  content: '✓';
+  position: absolute;
+  bottom: -4px;
+  right: -4px;
+  background: var(--accent);
+  color: white;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+/* comment box */
+textarea.comment{
+  width:100%;
+  min-height:100px;
+  padding:14px;
+  border-radius:16px;
+  border:2px solid #E0E0E0;
+  margin-top:12px;
+  font-family: 'Mitr', sans-serif;
+  font-size: 14px;
+  resize: vertical;
+  transition: all 0.3s ease;
+  box-sizing: border-box;
+}
+
+textarea.comment:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(232,93,154,0.15);
+}
+
+/* modal bottom buttons */
+.modal-actions{
+  display:flex;
+  gap:12px;
+  justify-content:center;
+  margin-top:20px;
+}
+
+.modal-actions .ctrl-btn {
+  flex: 1;
+  max-width: 150px;
+  font-size: 15px;
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+  .calendar {
+    padding: 20px;
+  }
+  
+  .month-year {
+    font-size: 19px;
+  }
+  
+  .calendar-title {
+    font-size: 24px;
+  }
+  
+  .cell {
+    min-height: 50px;
+  }
+  
+  .mood-image {
+    width: 22px;
+    height: 22px;
+  }
+  
+  .mood-btn {
+    width: 60px;
+    height: 60px;
+  }
+  
+  .mood-btn img {
+    width: 35px;
+    height: 35px;
+  }
+}
+</style>
+
+<!-- HTML -->
+<div class="calendar-wrap">
+  <div class="calendar season-spring" id="moodCalendar">
+    <h3 class="calendar-title">📅 ปฏิทินอารมณ์</h3>
+    
+    <div class="controls">
+      <button class="ctrl-btn" id="prevMonth">← ก่อนหน้า</button>
+      <div class="month-year" id="monthYear"></div>
+      <button class="ctrl-btn" id="nextMonth">ถัดไป →</button>
+    </div>
+
+    <div class="calendar-grid" id="calendarGrid">
+      <div class="weekday">อา</div>
+      <div class="weekday">จ</div>
+      <div class="weekday">อ</div>
+      <div class="weekday">พ</div>
+      <div class="weekday">พฤ</div>
+      <div class="weekday">ศ</div>
+      <div class="weekday">ส</div>
+    </div>
+  </div>
+</div>
+
+<!-- POPUP -->
+<div class="mood-modal" id="moodModal">
+  <div class="modal-card">
+    <h3>เลือกอารมณ์วันนี้</h3>
+
+    <div class="modal-row" id="moodButtons">
+      <!-- ใส่ URL รูปภาพของคุณที่นี่ -->
+      <button class="mood-btn" data-score="5">
+        <img src="YOUR_IMAGE_URL_1.png" alt="มีความสุขมาก">
+      </button>
+      <button class="mood-btn" data-score="4">
+        <img src="YOUR_IMAGE_URL_2.png" alt="มีความสุข">
+      </button>
+      <button class="mood-btn" data-score="3">
+        <img src="YOUR_IMAGE_URL_3.png" alt="ปกติ">
+      </button>
+      <button class="mood-btn" data-score="2">
+        <img src="YOUR_IMAGE_URL_4.png" alt="เศร้า">
+      </button>
+      <button class="mood-btn" data-score="1">
+        <img src="YOUR_IMAGE_URL_5.png" alt="เศร้ามาก">
+      </button>
+    </div>
+
+    <textarea class="comment" id="moodComment" placeholder="เขียนบันทึกในวันนี้..."></textarea>
+
+    <div class="modal-actions">
+      <button class="ctrl-btn" id="saveMood">💾 บันทึก</button>
+      <button class="ctrl-btn" id="closeModal">✖️ ยกเลิก</button>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+  // *** ตั้งค่า URL รูปภาพของคุณที่นี่ ***
+  const moodImages = {
+    1: 'YOUR_IMAGE_URL_5.png',  // เศร้ามาก
+    2: 'YOUR_IMAGE_URL_4.png',  // เศร้า
+    3: 'YOUR_IMAGE_URL_3.png',  // ปกติ
+    4: 'YOUR_IMAGE_URL_2.png',  // มีความสุข
+    5: 'YOUR_IMAGE_URL_1.png'   // มีความสุขมาก
+  };
+
+  const monthNames = ['มกราคม','กุมภาพันธ์','มีนาคม','เมษายน','พฤษภาคม','มิถุนายน','กรกฎาคม','สิงหาคม','กันยายน','ตุลาคม','พฤศจิกายน','ธันวาคม'];
+
+  const grid = document.getElementById('calendarGrid');
+  const monthYear = document.getElementById('monthYear');
+  const prev = document.getElementById('prevMonth');
+  const next = document.getElementById('nextMonth');
+  const modal = document.getElementById('moodModal');
+  const commentEl = document.getElementById('moodComment');
+  const moodButtons = document.getElementById('moodButtons');
+  const saveBtn = document.getElementById('saveMood');
+  const closeBtn = document.getElementById('closeModal');
+
+  let view = new Date();
+  let selectedKey = null;
+  const keyName = "mood_calendar_v2";
+
+  function load(){ 
+    try {
+      return JSON.parse(localStorage.getItem(keyName) || "{}");
+    } catch(e) {
+      return {};
+    }
+  }
+  
+  function save(obj){ 
+    try {
+      localStorage.setItem(keyName, JSON.stringify(obj));
+    } catch(e) {
+      console.error('Cannot save to localStorage');
+    }
+  }
+
+  function season(month){
+    if(month>=2 && month<=4) return "season-spring";
+    if(month>=5 && month<=7) return "season-summer";
+    if(month>=8 && month<=10) return "season-autumn";
+    return "season-winter";
+  }
+
+  function render(){
+    const calendar = document.getElementById("moodCalendar");
+    calendar.className = "calendar " + season(view.getMonth());
+
+    monthYear.textContent = monthNames[view.getMonth()] + " " + (view.getFullYear() + 543);
+
+    while(grid.children.length > 7) grid.removeChild(grid.lastChild);
+
+    const entries = load();
+    const year = view.getFullYear();
+    const month = view.getMonth();
+    const first = new Date(year, month, 1);
+    const startDay = first.getDay();
+    const daysInMonth = new Date(year, month+1, 0).getDate();
+    const prevDays = new Date(year, month, 0).getDate();
+
+    for(let i=0;i<startDay;i++){
+      const d = document.createElement("div");
+      d.className="cell faded";
+      d.textContent = prevDays-startDay+1+i;
+      grid.appendChild(d);
+    }
+
+    for(let day=1; day<=daysInMonth; day++){
+      const cell = document.createElement("div");
+      cell.className="cell";
+      const key = `${year}-${String(month+1).padStart(2,'0')}-${String(day).padStart(2,'0')}`;
+
+      const number = document.createElement("div");
+      number.textContent = day;
+      number.style.fontSize = '16px';
+      number.style.fontWeight = '600';
+
+      cell.appendChild(number);
+
+      // แสดงรูปภาพแทนอีโมจิ
+      if(entries[key] && entries[key].score) {
+        const img = document.createElement("img");
+        img.className = "mood-image";
+        img.src = moodImages[entries[key].score];
+        img.alt = "mood";
+        cell.appendChild(img);
+      }
+
+      cell.addEventListener("click", ()=> openModal(key));
+      grid.appendChild(cell);
+
+      const today = new Date();
+      if(today.getFullYear()==year && today.getMonth()==month && today.getDate()==day)
+        cell.classList.add("today");
+    }
+
+    const filler = (7 - (grid.children.length % 7)) % 7;
+    for(let i=1;i<=filler;i++){
+      const d=document.createElement("div");
+      d.className="cell faded";
+      d.textContent=i;
+      grid.appendChild(d);
+    }
+  }
+
+  function openModal(key){
+    selectedKey = key;
+    const entries = load();
+    const entry = entries[key] || {};
+    commentEl.value = entry.comment || "";
+
+    [...moodButtons.children].forEach(btn=>{
+      btn.classList.toggle("selected", String(btn.dataset.score)===String(entry.score));
+    });
+
+    modal.classList.add("active");
+  }
+
+  function close(){
+    modal.classList.remove("active");
+    selectedKey = null;
+    commentEl.value="";
+    [...moodButtons.children].forEach(btn=> btn.classList.remove("selected"));
+  }
+
+  moodButtons.addEventListener("click",(e)=>{
+    const btn = e.target.closest(".mood-btn");
+    if(btn){
+      [...moodButtons.children].forEach(b=> b.classList.remove("selected"));
+      btn.classList.add("selected");
+    }
+  });
+
+  saveBtn.addEventListener("click",()=>{
+    const entries = load();
+    const moodBtn = [...moodButtons.children].find(b=> b.classList.contains("selected"));
+    const score = moodBtn ? Number(moodBtn.dataset.score) : null;
+    entries[selectedKey] = {
+      score: score,
+      comment: commentEl.value.trim(),
+      updated: Date.now()
+    };
+    save(entries);
+    close();
+    render();
+  });
+
+  closeBtn.addEventListener("click", close);
+  modal.addEventListener("click", (e)=> {
+    if(e.target === modal) close();
+  });
+
+  prev.addEventListener("click",()=>{ 
+    view = new Date(view.getFullYear(), view.getMonth()-1, 1); 
+    render(); 
+  });
+  
+  next.addEventListener("click",()=>{ 
+    view = new Date(view.getFullYear(), view.getMonth()+1, 1); 
+    render(); 
+  });
+
+  render();
+})();
+</script>
