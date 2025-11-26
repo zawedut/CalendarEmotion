@@ -1,4 +1,3 @@
-<!-- PASTE THIS WHOLE BLOCK INTO WP CUSTOM HTML -->
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Mitr:wght@400;500;600&display=swap');
 
@@ -7,411 +6,540 @@
   --card: #ffffff;
   --accent: #E85D9A;
   --text: #2D2D2D;
-  --muted: #7A7A7A;
+  --muted: #888;
   --btn-bg: #FFB3D9;
-  --btn-text: #2D2D2D;
+  
+  /* รูปภาพอารมณ์ */
+  --mood-angry: url('https://nonglearndee.com/wp-content/uploads/2025/11/โกรธ-removebg-preview.png');
+  --mood-sad: url('https://nonglearndee.com/wp-content/uploads/2025/11/เศร้า-removebg-preview.png');
+  --mood-bored: url('https://nonglearndee.com/wp-content/uploads/2025/11/เบื่อหน่าย-removebg-preview.png');
+  --mood-wink: url('https://nonglearndee.com/wp-content/uploads/2025/11/ขยิบตา-removebg-preview.png');
+  --mood-happy: url('https://nonglearndee.com/wp-content/uploads/2025/11/ดีใจ_เเฮปปี้-removebg-preview.png');
 }
 
+/* ธีมสี */
 .season-spring { --bg:#FFE1ED; --accent:#E85D9A; --btn-bg:#FFB3D9; }
 .season-summer { --bg:#FFE8D1; --accent:#E8854D; --btn-bg:#FFD4AD; }
 .season-autumn { --bg:#FFDDD1; --accent:#E8754D; --btn-bg:#FFC4AD; }
 .season-winter { --bg:#D9EDFF; --accent:#5DA8E8; --btn-bg:#B3D9FF; }
 
-@keyframes float {
-  0%, 100% { transform: translateY(0px); }
-  50% { transform: translateY(-8px); }
-}
-
-@keyframes glow {
-  0%, 100% { box-shadow: 0 6px 20px rgba(0,0,0,0.1), 0 0 20px var(--accent); }
-  50% { box-shadow: 0 6px 20px rgba(0,0,0,0.1), 0 0 30px var(--accent); }
+* {
+  -webkit-tap-highlight-color: transparent;
+  box-sizing: border-box;
 }
 
 @keyframes slideIn {
-  from { transform: translateY(-20px); opacity: 0; }
+  from { transform: translateY(10px); opacity: 0; }
   to { transform: translateY(0); opacity: 1; }
 }
 
-.calendar-wrap{ 
-  display:flex; 
-  justify-content:center; 
-  padding:20px; 
+@keyframes popIn {
+    0% { transform: scale(0.5); opacity: 0; }
+    80% { transform: scale(1.1); opacity: 1; }
+    100% { transform: scale(1); }
+}
+
+@keyframes labelPop {
+    0% { transform: translateY(10px) scale(0.8); opacity: 0; }
+    50% { transform: translateY(-5px) scale(1.05); opacity: 1; }
+    100% { transform: translateY(0) scale(1); opacity: 1; }
+}
+
+.calendar-wrap{
+  display:flex;
+  justify-content:center;
+  padding: 20px 10px;
   font-family:'Mitr', 'Fredoka', sans-serif;
+  width: 100%;
 }
 
 .calendar{
-  width: 420px;
-  max-width: 95%;
+  width: 100%;
+  max-width: 420px;
   background: var(--bg);
-  border-radius: 24px;
-  padding: 28px;
-  box-shadow: 0 10px 40px rgba(0,0,0,0.15);
-  box-sizing: border-box;
-  animation: slideIn 0.6s ease-out;
+  border-radius: 28px;
+  padding: 24px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.08);
   position: relative;
+  transition: background-color 0.3s ease;
 }
 
-/* header */
+/* Header Controls */
 .controls{
   display:flex;
-  justify-content:center;
+  justify-content: space-between;
   align-items:center;
   margin-bottom: 20px;
-  gap: 15px;
 }
 
 .ctrl-btn{
   border: none;
-  background: var(--btn-bg);
-  padding: 12px 20px;
-  border-radius: 20px;
+  background: white;
+  width: 46px;
+  height: 40px;
+  border-radius: 12px;
   cursor:pointer;
-  font-weight:600;
-  color:var(--btn-text);
-  box-shadow: 0 4px 12px rgba(0,0,0,0.12);
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  font-size: 15px;
+  color: var(--accent);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+  transition: all 0.2s ease;
+  font-size: 18px;
   font-family:'Mitr', sans-serif;
-}
-
-.ctrl-btn:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 6px 20px rgba(0,0,0,0.18);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .ctrl-btn:active {
-  transform: translateY(0);
+  transform: scale(0.9);
+  background: var(--accent);
+  color: white;
 }
 
-/* month-year */
 .month-year{
-  font-size: 22px;
+  font-size: 20px;
   font-weight: 600;
   color: var(--text);
-  font-family:'Mitr', sans-serif;
   flex: 1;
   text-align: center;
 }
 
-/* title */
 .calendar-title {
   text-align:center;
-  color:var(--accent);
-  margin: 0 0 20px 0;
-  font-size: 28px;
+  color: var(--accent);
+  margin: 0 0 15px 0;
+  font-size: 24px;
   font-weight: 600;
-  text-shadow: 2px 2px 4px rgba(0,0,0,0.08);
-  font-family:'Mitr', sans-serif;
+  letter-spacing: 0.5px;
 }
 
-/* weekdays */
+/* Grid Layout */
 .calendar-grid{
   display: grid;
-  grid-template-columns: repeat(7,1fr);
-  gap: 10px;
-  margin-top:15px;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 8px;
+  margin-top: 10px;
+  width: 100%;
 }
 
 .weekday{
   text-align:center;
-  font-size:13px;
-  color:var(--muted);
-  font-weight:600;
-  padding: 8px 0;
-  font-family:'Mitr', sans-serif;
+  font-size: 13px;
+  color: var(--muted);
+  font-weight: 500;
+  margin-bottom: 5px;
 }
 
-/* date cell */
+/* Date Cell Styling */
 .cell{
   background: var(--card);
   border-radius: 16px;
-  text-align:center;
-  padding: 8px 4px;
-  min-height: 60px;
-  display:flex;
-  flex-direction:column;
-  justify-content:center;
+  aspect-ratio: 1 / 1.4; 
+  width: 100%; 
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   align-items: center;
   position: relative;
-  cursor:pointer;
-  box-shadow: 0 3px 10px rgba(0,0,0,0.1);
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
+  border: 2px solid transparent;
+  transition: all 0.2s cubic-bezier(0.25, 0.8, 0.25, 1);
+  user-select: none;
+  overflow: hidden;
+  padding: 6px 4px;
+}
+
+/* Hover Effect - สีพาสเทลตามฤดูกาล */
+.season-spring .cell:active, 
+.season-spring .cell:hover {
+  transform: translateY(-2px);
+  border-color: #E85D9A;
+  background-color: #FFD6E8;
+  box-shadow: 0 4px 12px rgba(232, 93, 154, 0.3);
+  z-index: 2;
+}
+
+.season-summer .cell:active, 
+.season-summer .cell:hover {
+  transform: translateY(-2px);
+  border-color: #E8854D;
+  background-color: #FFE0C4;
+  box-shadow: 0 4px 12px rgba(232, 133, 77, 0.3);
+  z-index: 2;
+}
+
+.season-autumn .cell:active, 
+.season-autumn .cell:hover {
+  transform: translateY(-2px);
+  border-color: #E8754D;
+  background-color: #FFD4C4;
+  box-shadow: 0 4px 12px rgba(232, 117, 77, 0.3);
+  z-index: 2;
+}
+
+.season-winter .cell:active, 
+.season-winter .cell:hover {
+  transform: translateY(-2px);
+  border-color: #5DA8E8;
+  background-color: #D0E8FF;
+  box-shadow: 0 4px 12px rgba(93, 168, 232, 0.3);
+  z-index: 2;
+}
+
+.cell.faded{
+  opacity: 0.35;
+  pointer-events: all;
+}
+
+.cell.faded .cell-number {
+  color: #bbb;
+  font-size: 13px;
+}
+
+/* ตัวเลขวันที่ */
+.cell-number {
+  font-size: 13px;
   font-weight: 600;
   color: var(--text);
-  font-family:'Fredoka', sans-serif;
+  line-height: 1;
+  transition: all 0.3s ease;
+  margin-bottom: 2px;
 }
 
-.cell:hover {
-  transform: translateY(-5px) scale(1.05);
-  box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+/* Emoji Container inside Cell */
+.emoji-display{
+  width: 0;
+  height: 0;
+  opacity: 0;
+  background-size: 100%;
+  background-position: center;
+  background-repeat: no-repeat;
+  margin-top: 0;
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  flex-shrink: 0;
 }
 
-.cell.faded{ 
-  opacity:0.3;
-  pointer-events: none;
+/* เมื่อมีอารมณ์ */
+.cell.has-mood {
+  justify-content: flex-start;
+  padding: 6px 4px;
 }
 
-/* mood image - แทนที่อีโมจิ */
-.mood-image{
-  margin-top:6px;
-  width: 28px;
-  height: 28px;
-  object-fit: contain;
-  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
-  transition: transform 0.3s ease;
+.cell.has-mood .emoji-display {
+  width: 100%;
+  height: calc(100% - 18px);
+  opacity: 1;
+  margin-top: 4px;
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.12));
 }
 
-.cell:hover .mood-image {
-  transform: scale(1.2) rotate(5deg);
+.cell.has-mood .cell-number {
+  font-size: 11px;
+  color: var(--muted);
+  font-weight: 500;
 }
 
-/* today highlight */
-.cell.today{
-  border: 3px solid var(--accent);
-  box-shadow: 0 6px 18px rgba(0,0,0,0.15), 0 0 25px var(--accent);
-  animation: glow 2s ease-in-out infinite;
-  font-weight: 700;
+/* Mapping รูปภาพ + สีตามอารมณ์ */
+.emoji-display[data-mood="5"] { 
+  background-image: var(--mood-happy); 
+}
+.cell.has-mood[data-mood="5"] {
+  background: linear-gradient(135deg, #E8F8E8 0%, #C8F0C8 100%);
+  border-color: #66D966;
 }
 
-/* modal */
+.emoji-display[data-mood="4"] { 
+  background-image: var(--mood-wink); 
+}
+.cell.has-mood[data-mood="4"] {
+  background: linear-gradient(135deg, #E8F4FD 0%, #D0E7F9 100%);
+  border-color: #6BA3D4;
+}
+
+.emoji-display[data-mood="3"] { 
+  background-image: var(--mood-bored); 
+}
+.cell.has-mood[data-mood="3"] {
+  background: linear-gradient(135deg, #FFF8E1 0%, #FFECB3 100%);
+  border-color: #FFC04D;
+}
+
+.emoji-display[data-mood="2"] { 
+  background-image: var(--mood-sad); 
+}
+.cell.has-mood[data-mood="2"] {
+  background: linear-gradient(135deg, #FFECD9 0%, #FFD4A8 100%);
+  border-color: #FFB366;
+}
+
+.emoji-display[data-mood="1"] { 
+  background-image: var(--mood-angry); 
+}
+.cell.has-mood[data-mood="1"] {
+  background: linear-gradient(135deg, #FFE5E5 0%, #FFD0D0 100%);
+  border-color: #FF6B6B;
+}
+
+/* Today Highlight */
+.cell.today {
+  border: 2px solid var(--accent);
+  color: var(--accent);
+  background: #fff;
+}
+
+/* Modal Popup */
 .mood-modal{
-  position:fixed;
-  inset:0;
-  display:none;
-  align-items:center;
-  justify-content:center;
-  background:rgba(0,0,0,0.5);
-  z-index:99999;
-  backdrop-filter: blur(8px);
-  animation: fadeIn 0.3s ease;
+  position: fixed;
+  inset: 0;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0,0,0,0.4);
+  z-index: 10000;
+  backdrop-filter: blur(4px);
+  animation: fadeIn 0.2s ease;
 }
 
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
-
-.mood-modal.active{ display:flex; }
+.mood-modal.active { display: flex; }
 
 .modal-card{
-  width:92%;
-  max-width:450px;
-  background:white;
-  padding:28px;
-  border-radius:24px;
-  box-shadow:0 20px 60px rgba(0,0,0,0.25);
-  animation: modalSlide 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-@keyframes modalSlide {
-  from { transform: translateY(-50px) scale(0.9); opacity: 0; }
-  to { transform: translateY(0) scale(1); opacity: 1; }
+  width: 88%;
+  max-width: 400px;
+  background: #ffffff;
+  padding: 25px;
+  border-radius: 30px;
+  box-shadow: 0 20px 50px rgba(0,0,0,0.2);
+  text-align: center;
+  animation: popIn 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
 .modal-card h3 {
-  text-align:center;
-  margin-top:0;
-  font-size: 24px;
-  font-weight: 600;
+  margin: 0 0 20px 0;
+  font-size: 20px;
   color: var(--text);
-  font-family:'Mitr', sans-serif;
 }
 
 .modal-row{
-  display:flex; 
-  gap:12px; 
-  flex-wrap:wrap; 
-  justify-content:center;
-  margin: 20px 0;
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+}
+
+/* Mood Selection Buttons */
+.mood-btn-wrapper {
+  position: relative;
+  display: inline-block;
 }
 
 .mood-btn{
-  border:none;
-  background:#F5F5F5;
-  padding:16px 18px;
-  border-radius:20px;
-  cursor:pointer;
-  box-shadow:0 4px 12px rgba(0,0,0,0.1);
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  border: 3px solid transparent;
+  background-color: #F8F8F8;
+  border-radius: 18px;
+  width: 60px;
+  height: 60px;
+  cursor: pointer;
   position: relative;
-  width: 70px;
-  height: 70px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  background-size: 65%;
+  background-position: center;
+  background-repeat: no-repeat;
+  transition: all 0.2s ease;
 }
 
-.mood-btn img {
-  width: 40px;
-  height: 40px;
-  object-fit: contain;
+.mood-btn[data-score="5"] { 
+  background-image: var(--mood-happy);
+  background-color: #E8F8E8;
+}
+.mood-btn[data-score="4"] { 
+  background-image: var(--mood-wink);
+  background-color: #E8F4FD;
+}
+.mood-btn[data-score="3"] { 
+  background-image: var(--mood-bored);
+  background-color: #FFF8E1;
+}
+.mood-btn[data-score="2"] { 
+  background-image: var(--mood-sad);
+  background-color: #FFECD9;
+}
+.mood-btn[data-score="1"] { 
+  background-image: var(--mood-angry);
+  background-color: #FFE5E5;
 }
 
-.mood-btn:hover {
-  transform: translateY(-4px) scale(1.1);
-  box-shadow:0 8px 20px rgba(0,0,0,0.15);
+.mood-btn:active { transform: scale(0.95); }
+
+.mood-btn.selected[data-score="5"]{
+  background-color: #C8F0C8;
+  border-color: #66D966;
+  box-shadow: 0 8px 20px rgba(102, 217, 102, 0.3);
+  transform: translateY(-5px);
 }
 
-.mood-btn.selected{
-  background: var(--btn-bg);
-  transform: translateY(-6px) scale(1.15);
-  box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+.mood-btn.selected[data-score="4"]{
+  background-color: #D0E7F9;
+  border-color: #6BA3D4;
+  box-shadow: 0 8px 20px rgba(107, 163, 212, 0.3);
+  transform: translateY(-5px);
 }
 
-.mood-btn.selected::after {
-  content: '✓';
+.mood-btn.selected[data-score="3"]{
+  background-color: #FFECB3;
+  border-color: #FFC04D;
+  box-shadow: 0 8px 20px rgba(255, 192, 77, 0.3);
+  transform: translateY(-5px);
+}
+
+.mood-btn.selected[data-score="2"]{
+  background-color: #FFD4A8;
+  border-color: #FFB366;
+  box-shadow: 0 8px 20px rgba(255, 179, 102, 0.3);
+  transform: translateY(-5px);
+}
+
+.mood-btn.selected[data-score="1"]{
+  background-color: #FFD0D0;
+  border-color: #FF6B6B;
+  box-shadow: 0 8px 20px rgba(255, 107, 107, 0.3);
+  transform: translateY(-5px);
+}
+
+/* Label Popup */
+.mood-label {
   position: absolute;
-  bottom: -4px;
-  right: -4px;
-  background: var(--accent);
+  top: -35px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0, 0, 0, 0.85);
   color: white;
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  padding: 6px 12px;
+  border-radius: 12px;
   font-size: 12px;
-  font-weight: bold;
+  font-weight: 600;
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  z-index: 100;
+  font-family: 'Mitr', sans-serif;
 }
 
-/* comment box */
+.mood-btn-wrapper:active .mood-label,
+.mood-btn-wrapper:hover .mood-label {
+  opacity: 1;
+  animation: labelPop 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* Comment Box */
 textarea.comment{
-  width:100%;
-  min-height:100px;
-  padding:14px;
-  border-radius:16px;
-  border:2px solid #E0E0E0;
-  margin-top:12px;
+  width: 100%;
+  padding: 15px;
+  border-radius: 18px;
+  border: 1px solid #eee;
+  background: #F9F9F9;
   font-family: 'Mitr', sans-serif;
   font-size: 14px;
-  resize: vertical;
-  transition: all 0.3s ease;
-  box-sizing: border-box;
+  resize: none;
+  height: 80px;
+  outline: none;
 }
 
 textarea.comment:focus {
-  outline: none;
   border-color: var(--accent);
-  box-shadow: 0 0 0 3px rgba(232,93,154,0.15);
+  background: #fff;
 }
 
-/* modal bottom buttons */
+/* Actions */
 .modal-actions{
-  display:flex;
-  gap:12px;
-  justify-content:center;
-  margin-top:20px;
+  display: flex;
+  gap: 10px;
+  margin-top: 20px;
 }
 
-.modal-actions .ctrl-btn {
+.action-btn {
   flex: 1;
-  max-width: 150px;
+  padding: 12px;
+  border-radius: 15px;
   font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+  font-family: 'Mitr', sans-serif;
+}
+
+.btn-save {
+  background: var(--accent);
+  color: white;
+  box-shadow: 0 4px 10px rgba(232, 93, 154, 0.3);
+}
+
+.btn-cancel {
+  background: #f0f0f0;
+  color: #666;
 }
 
 /* Responsive */
-@media (max-width: 480px) {
-  .calendar {
-    padding: 20px;
-  }
-  
-  .month-year {
-    font-size: 19px;
-  }
-  
-  .calendar-title {
-    font-size: 24px;
-  }
-  
-  .cell {
-    min-height: 50px;
-  }
-  
-  .mood-image {
-    width: 22px;
-    height: 22px;
-  }
-  
-  .mood-btn {
-    width: 60px;
-    height: 60px;
-  }
-  
-  .mood-btn img {
-    width: 35px;
-    height: 35px;
-  }
+@media (min-width: 480px) {
+    .calendar-grid { gap: 12px; }
+    .cell { aspect-ratio: 1 / 1.35; }
+    .cell.has-mood .cell-number { font-size: 12px; }
+    .cell-number { font-size: 14px; }
+    .mood-btn { width: 70px; height: 70px; }
 }
 </style>
 
-<!-- HTML -->
 <div class="calendar-wrap">
-  <div class="calendar season-spring" id="moodCalendar">
+  <div class="calendar" id="moodCalendar">
     <h3 class="calendar-title">📅 ปฏิทินอารมณ์</h3>
     
     <div class="controls">
-      <button class="ctrl-btn" id="prevMonth">← ก่อนหน้า</button>
+      <button class="ctrl-btn" id="prevMonth">❮</button>
       <div class="month-year" id="monthYear"></div>
-      <button class="ctrl-btn" id="nextMonth">ถัดไป →</button>
+      <button class="ctrl-btn" id="nextMonth">❯</button>
     </div>
 
-    <div class="calendar-grid" id="calendarGrid">
-      <div class="weekday">อา</div>
-      <div class="weekday">จ</div>
-      <div class="weekday">อ</div>
-      <div class="weekday">พ</div>
-      <div class="weekday">พฤ</div>
-      <div class="weekday">ศ</div>
-      <div class="weekday">ส</div>
-    </div>
+    <div class="calendar-grid" id="calendarGrid"></div>
   </div>
 </div>
 
-<!-- POPUP -->
 <div class="mood-modal" id="moodModal">
-  <div class="modal-card">
-    <h3>เลือกอารมณ์วันนี้</h3>
+  <div class="modal-card" id="modalCard">
+    <h3>วันนี้รู้สึกยังไง?</h3>
 
     <div class="modal-row" id="moodButtons">
-      <!-- ใส่ URL รูปภาพของคุณที่นี่ -->
-      <button class="mood-btn" data-score="5">
-        <img src="YOUR_IMAGE_URL_1.png" alt="มีความสุขมาก">
-      </button>
-      <button class="mood-btn" data-score="4">
-        <img src="YOUR_IMAGE_URL_2.png" alt="มีความสุข">
-      </button>
-      <button class="mood-btn" data-score="3">
-        <img src="YOUR_IMAGE_URL_3.png" alt="ปกติ">
-      </button>
-      <button class="mood-btn" data-score="2">
-        <img src="YOUR_IMAGE_URL_4.png" alt="เศร้า">
-      </button>
-      <button class="mood-btn" data-score="1">
-        <img src="YOUR_IMAGE_URL_5.png" alt="เศร้ามาก">
-      </button>
+      <div class="mood-btn-wrapper">
+        <button class="mood-btn" data-score="5"></button>
+        <div class="mood-label">😄 ดีใจ</div>
+      </div>
+      <div class="mood-btn-wrapper">
+        <button class="mood-btn" data-score="4"></button>
+        <div class="mood-label">😉 ขยิบตา</div>
+      </div>
+      <div class="mood-btn-wrapper">
+        <button class="mood-btn" data-score="3"></button>
+        <div class="mood-label">😐 เบื่อ</div>
+      </div>
+      <div class="mood-btn-wrapper">
+        <button class="mood-btn" data-score="2"></button>
+        <div class="mood-label">😢 เศร้า</div>
+      </div>
+      <div class="mood-btn-wrapper">
+        <button class="mood-btn" data-score="1"></button>
+        <div class="mood-label">😡 โกรธ</div>
+      </div>
     </div>
 
-    <textarea class="comment" id="moodComment" placeholder="เขียนบันทึกในวันนี้..."></textarea>
+    <textarea class="comment" id="moodComment" placeholder="เขียนบันทึกสั้นๆ..."></textarea>
 
     <div class="modal-actions">
-      <button class="ctrl-btn" id="saveMood">💾 บันทึก</button>
-      <button class="ctrl-btn" id="closeModal">✖️ ยกเลิก</button>
+      <button class="action-btn btn-save" id="saveMood">บันทึก</button>
+      <button class="action-btn btn-cancel" id="closeModal">ปิด</button>
     </div>
   </div>
 </div>
 
 <script>
 (function(){
-  // *** ตั้งค่า URL รูปภาพของคุณที่นี่ ***
-  const moodImages = {
-    1: 'YOUR_IMAGE_URL_5.png',  // เศร้ามาก
-    2: 'YOUR_IMAGE_URL_4.png',  // เศร้า
-    3: 'YOUR_IMAGE_URL_3.png',  // ปกติ
-    4: 'YOUR_IMAGE_URL_2.png',  // มีความสุข
-    5: 'YOUR_IMAGE_URL_1.png'   // มีความสุขมาก
-  };
-
   const monthNames = ['มกราคม','กุมภาพันธ์','มีนาคม','เมษายน','พฤษภาคม','มิถุนายน','กรกฎาคม','สิงหาคม','กันยายน','ตุลาคม','พฤศจิกายน','ธันวาคม'];
 
   const grid = document.getElementById('calendarGrid');
@@ -419,30 +547,19 @@ textarea.comment:focus {
   const prev = document.getElementById('prevMonth');
   const next = document.getElementById('nextMonth');
   const modal = document.getElementById('moodModal');
+  const modalCard = document.getElementById('modalCard');
   const commentEl = document.getElementById('moodComment');
   const moodButtons = document.getElementById('moodButtons');
   const saveBtn = document.getElementById('saveMood');
   const closeBtn = document.getElementById('closeModal');
+  const calendarEl = document.getElementById('moodCalendar');
 
   let view = new Date();
   let selectedKey = null;
   const keyName = "mood_calendar_v2";
 
-  function load(){ 
-    try {
-      return JSON.parse(localStorage.getItem(keyName) || "{}");
-    } catch(e) {
-      return {};
-    }
-  }
-  
-  function save(obj){ 
-    try {
-      localStorage.setItem(keyName, JSON.stringify(obj));
-    } catch(e) {
-      console.error('Cannot save to localStorage');
-    }
-  }
+  function load(){ try { return JSON.parse(localStorage.getItem(keyName) || "{}"); } catch(e) { return {}; } }
+  function save(obj){ try { localStorage.setItem(keyName, JSON.stringify(obj)); } catch(e) {} }
 
   function season(month){
     if(month>=2 && month<=4) return "season-spring";
@@ -452,49 +569,79 @@ textarea.comment:focus {
   }
 
   function render(){
-    const calendar = document.getElementById("moodCalendar");
-    calendar.className = "calendar " + season(view.getMonth());
-
+    const currentSeason = season(view.getMonth());
+    calendarEl.className = "calendar " + currentSeason;
+    
     monthYear.textContent = monthNames[view.getMonth()] + " " + (view.getFullYear() + 543);
+    grid.innerHTML = '';
 
-    while(grid.children.length > 7) grid.removeChild(grid.lastChild);
+    const weekdays = ['อา','จ','อ','พ','พฤ','ศ','ส'];
+    weekdays.forEach(day => {
+        const d = document.createElement("div");
+        d.className = "weekday";
+        d.textContent = day;
+        grid.appendChild(d);
+    });
 
     const entries = load();
     const year = view.getFullYear();
     const month = view.getMonth();
-    const first = new Date(year, month, 1);
-    const startDay = first.getDay();
+    const startDay = new Date(year, month, 1).getDay();
     const daysInMonth = new Date(year, month+1, 0).getDate();
-    const prevDays = new Date(year, month, 0).getDate();
+    
+    // วันสุดท้ายของเดือนก่อนหน้า
+    const prevMonthDays = new Date(year, month, 0).getDate();
 
-    for(let i=0;i<startDay;i++){
-      const d = document.createElement("div");
-      d.className="cell faded";
-      d.textContent = prevDays-startDay+1+i;
-      grid.appendChild(d);
+    // แสดงวันเดือนก่อนหน้า
+    for(let i=startDay-1; i>=0; i--){
+      const day = prevMonthDays - i;
+      const cell = document.createElement("div");
+      cell.className="cell faded";
+      
+      const prevMonth = month === 0 ? 11 : month - 1;
+      const prevYear = month === 0 ? year - 1 : year;
+      const key = `${prevYear}-${String(prevMonth+1).padStart(2,'0')}-${String(day).padStart(2,'0')}`;
+
+      const number = document.createElement("div");
+      number.className = "cell-number";
+      number.textContent = day;
+
+      const em = document.createElement("div");
+      em.className = "emoji-display";
+
+      if(entries[key]) {
+        em.setAttribute('data-mood', entries[key].score);
+        cell.setAttribute('data-mood', entries[key].score);
+        cell.classList.add('has-mood');
+      }
+
+      cell.appendChild(number);
+      cell.appendChild(em);
+      cell.addEventListener("click", ()=> openModal(key));
+      grid.appendChild(cell);
     }
 
+    // แสดงวันในเดือนปัจจุบัน
     for(let day=1; day<=daysInMonth; day++){
       const cell = document.createElement("div");
       cell.className="cell";
       const key = `${year}-${String(month+1).padStart(2,'0')}-${String(day).padStart(2,'0')}`;
 
       const number = document.createElement("div");
+      number.className = "cell-number";
       number.textContent = day;
-      number.style.fontSize = '16px';
-      number.style.fontWeight = '600';
 
-      cell.appendChild(number);
+      const em = document.createElement("div");
+      em.className = "emoji-display";
 
-      // แสดงรูปภาพแทนอีโมจิ
-      if(entries[key] && entries[key].score) {
-        const img = document.createElement("img");
-        img.className = "mood-image";
-        img.src = moodImages[entries[key].score];
-        img.alt = "mood";
-        cell.appendChild(img);
+      if(entries[key]) {
+        em.setAttribute('data-mood', entries[key].score);
+        cell.setAttribute('data-mood', entries[key].score);
+        cell.classList.add('has-mood');
       }
 
+      cell.appendChild(number);
+      cell.appendChild(em);
       cell.addEventListener("click", ()=> openModal(key));
       grid.appendChild(cell);
 
@@ -502,13 +649,36 @@ textarea.comment:focus {
       if(today.getFullYear()==year && today.getMonth()==month && today.getDate()==day)
         cell.classList.add("today");
     }
+    
+    // แสดงวันเดือนถัดไป
+    const totalCells = grid.children.length - 7; // ลบแถวหัวตาราง
+    const remainingCells = 42 - totalCells; // 6 สัปดาห์ x 7 วัน
+    
+    for(let day=1; day<=remainingCells; day++){
+      const cell = document.createElement("div");
+      cell.className="cell faded";
+      
+      const nextMonth = month === 11 ? 0 : month + 1;
+      const nextYear = month === 11 ? year + 1 : year;
+      const key = `${nextYear}-${String(nextMonth+1).padStart(2,'0')}-${String(day).padStart(2,'0')}`;
 
-    const filler = (7 - (grid.children.length % 7)) % 7;
-    for(let i=1;i<=filler;i++){
-      const d=document.createElement("div");
-      d.className="cell faded";
-      d.textContent=i;
-      grid.appendChild(d);
+      const number = document.createElement("div");
+      number.className = "cell-number";
+      number.textContent = day;
+
+      const em = document.createElement("div");
+      em.className = "emoji-display";
+
+      if(entries[key]) {
+        em.setAttribute('data-mood', entries[key].score);
+        cell.setAttribute('data-mood', entries[key].score);
+        cell.classList.add('has-mood');
+      }
+
+      cell.appendChild(number);
+      cell.appendChild(em);
+      cell.addEventListener("click", ()=> openModal(key));
+      grid.appendChild(cell);
     }
   }
 
@@ -518,8 +688,10 @@ textarea.comment:focus {
     const entry = entries[key] || {};
     commentEl.value = entry.comment || "";
 
-    [...moodButtons.children].forEach(btn=>{
-      btn.classList.toggle("selected", String(btn.dataset.score)===String(entry.score));
+    const allBtns = moodButtons.querySelectorAll('.mood-btn');
+    allBtns.forEach(btn=>{
+      const score = btn.dataset.score;
+      btn.classList.toggle("selected", String(score) === String(entry.score));
     });
 
     modal.classList.add("active");
@@ -528,46 +700,40 @@ textarea.comment:focus {
   function close(){
     modal.classList.remove("active");
     selectedKey = null;
-    commentEl.value="";
-    [...moodButtons.children].forEach(btn=> btn.classList.remove("selected"));
+    const allBtns = moodButtons.querySelectorAll('.mood-btn');
+    allBtns.forEach(btn=> btn.classList.remove("selected"));
   }
 
   moodButtons.addEventListener("click",(e)=>{
-    const btn = e.target.closest(".mood-btn");
+    const btn = e.target.closest('.mood-btn'); 
     if(btn){
-      [...moodButtons.children].forEach(b=> b.classList.remove("selected"));
+      const allBtns = moodButtons.querySelectorAll('.mood-btn');
+      allBtns.forEach(b=> b.classList.remove("selected"));
       btn.classList.add("selected");
     }
   });
 
   saveBtn.addEventListener("click",()=>{
     const entries = load();
-    const moodBtn = [...moodButtons.children].find(b=> b.classList.contains("selected"));
-    const score = moodBtn ? Number(moodBtn.dataset.score) : null;
-    entries[selectedKey] = {
-      score: score,
-      comment: commentEl.value.trim(),
-      updated: Date.now()
-    };
-    save(entries);
+    const moodBtn = moodButtons.querySelector('.mood-btn.selected');
+    
+    if (moodBtn) {
+        entries[selectedKey] = {
+            score: Number(moodBtn.dataset.score),
+            comment: commentEl.value.trim(),
+            updated: Date.now()
+        };
+        save(entries);
+    }
     close();
     render();
   });
 
   closeBtn.addEventListener("click", close);
-  modal.addEventListener("click", (e)=> {
-    if(e.target === modal) close();
-  });
+  modal.addEventListener("click", (e)=> { if(e.target === modal) close(); });
 
-  prev.addEventListener("click",()=>{ 
-    view = new Date(view.getFullYear(), view.getMonth()-1, 1); 
-    render(); 
-  });
-  
-  next.addEventListener("click",()=>{ 
-    view = new Date(view.getFullYear(), view.getMonth()+1, 1); 
-    render(); 
-  });
+  prev.addEventListener("click",()=>{ view = new Date(view.getFullYear(), view.getMonth()-1, 1); render(); });
+  next.addEventListener("click",()=>{ view = new Date(view.getFullYear(), view.getMonth()+1, 1); render(); });
 
   render();
 })();
